@@ -1,62 +1,23 @@
-#!/usr/bin/env python
-# coding: utf-8
-
 # # 概要
-
 # - streamlitを使ってwebアプリを作る
 # - .pyにしてから作業を進める
-
 # ## ライブラリ
-
-# In[45]:
-
-
 import streamlit as st
 import pandas as pd
 
 import numpy as np
-import matplotlib.pyplot as plt
-
-
-# In[57]:
-
-
 
 from time import sleep, time
 from datetime import datetime, date
 
-
-
-# ## 定数定義
-
-# In[ ]:
-
-
 OUTPUT_PATH = "streamlit_出力表.csv"
-
-
-# # 本処理
-
-# ## タイトル作成
-
-# In[2]:
-
-
 
 st.title("割り勘アプリ")
 st.text("streamlitを使っています")
 
 
 # ## 名前入力欄、比率作成
-
-# In[ ]:
-
-
 st.header("名前、割合入力")
-
-
-# In[35]:
-
 
 user1 = st.text_input("名前（1人目）")
 ratio1 = st.slider("割合（1人目）", min_value=0.0, max_value=1.0, value=0.5)
@@ -74,36 +35,18 @@ st.session_state['user'] = [[user1, ratio1], [user2, ratio2]]
 
 # ## 金額入力機能
 
-# In[32]:
-
-
 columns=["日付", "支払者", "商品", "金額"]
 list_name = [user1, user2]
 
 
-# In[33]:
-
-
 df = pd.DataFrame(columns=columns)
 
-
-# In[ ]:
-
-
 st.header("金額入力")
-
-
-# In[ ]:
-
 
 date = st.text_input('日付')
 name = st.selectbox("支払者", list_name)
 goods = st.text_input("商品")
 cost = st.text_input("金額")
-
-
-# In[ ]:
-
 
 if st.button('リストに追記'):
     
@@ -123,23 +66,9 @@ if st.button('リストに追記'):
     
     st.dataframe(st.session_state['df'], 600, 300)
 
-
-# In[ ]:
-
-
-
-
-
 # ## 支払金額計算
 
-# In[ ]:
-
-
 st.header("購入金額")
-
-
-# In[ ]:
-
 
 df_calc = st.session_state['df']
 df_calc["金額"] = df_calc["金額"].astype(int)
@@ -152,23 +81,12 @@ st.write(st.session_state['user'][0][0], ':', sum_user1, "円")
 st.write(st.session_state['user'][1][0], ':', sum_user2, "円")
 
 
-# In[ ]:
-
-
 # 払うべき額の計算
 pay_user1 = sum_cost * st.session_state['user'][0][1]
 pay_user2 = sum_cost * st.session_state['user'][1][1]
 pay_num = (pay_user1 - sum_user1).round(1)
 
-
-# In[ ]:
-
-
 st.header("調整")
-
-
-# In[ ]:
-
 
 # 払った金額が少ない人が多い人に払う
 if pay_num > 0:
@@ -179,39 +97,9 @@ else:
     st.write("どちらも払う必要なし")
 
 
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
 # ## セッション情報を削除
 
-# In[ ]:
-
-
 st.header("初期化")
-
-
-# In[ ]:
 
 
 if st.button('金額情報削除'):
@@ -225,9 +113,6 @@ if st.button('ユーザー情報削除'):
 
 
 # ## CSV出力
-
-# In[ ]:
-
 
 # パスワードつける
 password = st.text_input("Pass")
